@@ -15,9 +15,32 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 * **Probe / X-Carriage:** ChaoticLab CNC Voron TAP V2 (All-Metal CNC Aluminum)
 * **Front Idlers:** Shang Bo Front Idlers Mod (SBFI V2.4)
 * **Z-Joints:** GE5C Spherical Bearing Mod (igus EGLM-05)
+* **Z-Idlers (Top 4 Corners):** Top-Adjustable Beefy Z-Idlers ([Printables #726338](https://www.printables.com/model/726338-top-adjustable-voron-beefy-z-idlers))
+* **XY-Joints:** All-Metal CNC 6061 Aluminum XY-Joints ([AliExpress #1005008506747887](https://de.aliexpress.com/item/1005008506747887.html))
+* **A/B-Drives:** Hartk Pin-Mod (`Mods_PinMod_AB_XY`)
 * **XY-Endstop:** Hartk D2F Microswitch PCB Pod
+* **CAN Transceiver:** BigTreeTech U2C v2.1 (Electroleon DIN Mount in `Mods_Electronics_U2C_Pi`)
 * **Controller:** BigTreeTech Octopus / Octopus Pro
-* **SBC:** Raspberry Pi
+* **SBC:** Raspberry Pi 4 (LDO Beefy DIN Mount in `Mods_Electronics_U2C_Pi`)
+
+---
+
+## Pin-Mod Hardware & Dowel Pin BOM (5 mm Zylinderstifte)
+
+Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Zylinderstifte (ISO 2338 / DIN 7) benötigt:
+
+| Baugruppe | Verwendeter Mod | Benötigte Pins | Notizen / Misumi Ref |
+| :--- | :--- | :---: | :--- |
+| **Front Idlers (Vorne)** | Shang Bo Front Idlers (SBFI V2.4) | **2× $\varnothing$ 5 mm × 18 mm** | 1 Pin pro Idler-Carrier |
+| **Z-Idlers (Oben 4 Ecken)** | Top-Adjustable Beefy Z-Idlers (#726338) | **4× $\varnothing$ 5 mm × 22 mm** | 1 Pin pro Z-Idler |
+| **A/B-Drives (Hinten Motoren)** | Hartk Pin-Mod (`Mods_PinMod_AB_XY`) | **2× $\varnothing$ 5 mm × 28 mm**<br>**2× $\varnothing$ 5 mm × 30 mm** | Misumi `SFR5-28`<br>Misumi `SFR5-30` |
+| **XY-Joints (Gantry-Ecken)** | All-Metal CNC 6061 Alu XY-Joints | **0× (Bereits integriert)** | CNC-Teil hat ab Werk gedrehte Stifte |
+
+**Gesamtübersicht zum Bestellen:**
+* **$\varnothing$ 5 × 18 mm:** 2 Stück
+* **$\varnothing$ 5 × 22 mm:** 4 Stück
+* **$\varnothing$ 5 × 28 mm:** 2 Stück
+* **$\varnothing$ 5 × 30 mm:** 2 Stück
 
 ---
 
