@@ -29,18 +29,15 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 
 Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Zylinderstifte (ISO 2338 / DIN 7) benötigt:
 
-| Baugruppe | Verwendeter Mod | Benötigte Pins | Notizen / Misumi Ref |
+| Baugruppe | Verwendeter Mod | Benötigte Stifte | Status |
 | :--- | :--- | :---: | :--- |
-| **Front Idlers (Vorne)** | Shang Bo Front Idlers (SBFI V2.4) | **2× $\varnothing$ 5 mm × 18 mm** | 1 Pin pro Idler-Carrier |
-| **Z-Idlers (Oben 4 Ecken)** | Top-Adjustable Beefy Z-Idlers (#726338) | **4× $\varnothing$ 5 mm × 22 mm** | 1 Pin pro Z-Idler |
-| **A/B-Drives (Hinten Motoren)** | Hartk Pin-Mod (`Mods_PinMod_AB_XY`) | **2× $\varnothing$ 5 mm × 28 mm**<br>**2× $\varnothing$ 5 mm × 30 mm** | Misumi `SFR5-28`<br>Misumi `SFR5-30` |
-| **XY-Joints (Gantry-Ecken)** | All-Metal CNC 6061 Alu XY-Joints | **0× (Bereits integriert)** | CNC-Teil hat ab Werk gedrehte Stifte |
+| **Extruder** | Galileo 2 Extruder (G2E) | **2× $\varnothing$ 5 mm × 16 mm** | Vorhanden (G2E Hardware Kit) |
+| **Front Idlers (Vorne)** | Shang Bo Front Idlers (SBFI V2.4) | **2× $\varnothing$ 5 mm × 18 mm** | Vorhanden |
+| **Z-Idlers (Oben 4 Ecken)** | Top-Adjustable Beefy Z-Idlers (#726338) | **4× $\varnothing$ 5 mm × 22 mm** | Vorhanden |
+| **A/B-Drives (Hinten Motoren)** | All-Metal CNC 6061 Alu A/B Drives | **0× (Bereits integriert)** | Vorinstallierte Stifte im CNC-Teil |
+| **XY-Joints (Gantry-Ecken)** | All-Metal CNC 6061 Alu XY-Joints | **0× (Bereits integriert)** | Vorinstallierte Stifte im CNC-Teil |
 
-**Gesamtübersicht zum Bestellen:**
-* **$\varnothing$ 5 × 18 mm:** 2 Stück
-* **$\varnothing$ 5 × 22 mm:** 4 Stück
-* **$\varnothing$ 5 × 28 mm:** 2 Stück
-* **$\varnothing$ 5 × 30 mm:** 2 Stück
+**Ergebnis:** Alle benötigten Stifte (2× 5×16 mm, 2× 5×18 mm, 4× 5×22 mm) sind **zu 100 % vorhanden**. Es muss kein einziger Stift bestellt werden!
 
 ---
 
@@ -62,7 +59,7 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 ## Progress Overview
 
 ```
-[==========================>        ] ~75% Complete (All Z-Motion, Toolhead & Gantry Joints Done)
+[==============================>    ] ~85% Complete (All Kinematics & Motion System 100% Done!)
 ```
 
 | Subsystem | Status | Progress | Notes |
@@ -75,7 +72,7 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 | **XY Endstop** | **100%** | 1 / 1 part | Hartk D2F pod printed |
 | **Z-Drives (Lower 4 Corners)** | **100%** | 12 / 12 parts | Fully printed (`z_drive_main_b_x2` done on 08.10.2026!) |
 | **XY-Joints** | **100%** | Hardware | All-Metal CNC 6061 Alu XY-Joints (AliExpress #1005008506747887) |
-| **A/B-Drive Units (Rear Motors)** | **20%** | 2 / 7 parts | STLs ready in `Mods_PinMod_AB_XY` & `Stock_AB_Drives` |
+| **A/B-Drive Units (Rear Motors)** | **100%** | Hardware | All-Metal CNC 6061 Alu A/B Drives (Pins pre-installed!) |
 | **Electronics Bay** | **0%** | 0 / ~14 parts | STLs ready in `Mods_Electronics_U2C_Pi` |
 | **Skirts (350 mm)** | **0%** | 0 / ~16 parts | Pending |
 | **Panels & Doors (4 mm)** | **0%** | 0 / ~35 parts | 270° Hinges ready in `Mods_Door_Hinges_270` |
@@ -135,25 +132,21 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 ### XY-Joints (Gantry Corners)
 - [x] 2× All-Metal CNC 6061 Alu XY-Joints ([AliExpress #1005008506747887](https://de.aliexpress.com/item/1005008506747887.html)) – Replaces and eliminates all 4 printed XY-joint halves!
 
+### A/B-Drive Units (Rear Upper Motor Mounts)
+- [x] 2× All-Metal CNC 6061 Alu A/B Drives (Left & Right) – Pre-installed precision pins & bearing shafts! Replaces and eliminates all 4 printed A/B frame parts!
+
 ---
 
 ## 2. Missing Parts Todo List (`[ ]`)
 
-### Priority 1: Motion System & Frame Mechanics
+### Priority 1: Cable Routing & Z Drag Chain
 
-#### A/B-Drive Units (Rear Upper Motor Mounts)
-*Recommended: Hartk Pin-Mod in `B:\Voron\Mods_PinMod_AB_XY\` (uses 5mm ground dowel pins for smoother rotation and stiffer shafts) or Stock in `B:\Voron\Stock_AB_Drives\`.*
-- [ ] `a_drive_frame_upper_pinned.stl` (or stock `a_drive_frame_upper.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `a_drive_frame_lower_pinned.stl` (or stock `a_drive_frame_lower.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `b_drive_frame_upper_pinned.stl` (or stock `b_drive_frame_upper.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `b_drive_frame_lower_pinned.stl` (or stock `b_drive_frame_lower.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `[a]_cable_cover.stl` – **Qty: 1** *(Accent Color)*
-
-#### Z Drag Chain Guides
+#### Z Drag Chain Guides & Cable Covers
 *(Note: X/Y drag chains omitted due to CAN bus umbilical)*
-- [ ] `z_chain_bottom_anchor.stl` – **Qty: 1**
-- [ ] `z_chain_guide.stl` – **Qty: 1**
-- [ ] `[a]_z_chain_retainer_bracket_x2.stl` – **Qty: 2**
+- [ ] `z_chain_bottom_anchor.stl` – **Qty: 1** *(Primary Color – Located in `Stock_AB_Drives`)*
+- [ ] `z_chain_guide.stl` – **Qty: 1** *(Primary Color – Located in `Stock_AB_Drives`)*
+- [ ] `[a]_z_chain_retainer_bracket_x2.stl` – **Qty: 2** *(Accent Color – Located in `Stock_AB_Drives`)*
+- [ ] `[a]_cable_cover.stl` – **Qty: 1** *(Accent Color – Optional cable cover)*
 
 ---
 
