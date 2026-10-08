@@ -39,7 +39,7 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 ## Progress Overview
 
 ```
-[=======================>           ] ~65% Complete (All Core Motion & Toolhead Done)
+[==========================>        ] ~75% Complete (All Z-Motion, Toolhead & Gantry Joints Done)
 ```
 
 | Subsystem | Status | Progress | Notes |
@@ -50,9 +50,9 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 | **Z-Joints (GE5C Mod)** | **100%** | 8 / 8 parts | Fully printed |
 | **Z-Idlers (Top 4 Corners)** | **100%** | 4 / 4 parts | Top-Adjustable Beefy Z-Idlers (Printables #726338) |
 | **XY Endstop** | **100%** | 1 / 1 part | Hartk D2F pod printed |
-| **Z-Drives (Lower 4 Corners)** | **83%** | 10 / 12 parts | Only `z_drive_main_b_x2.stl` missing! |
+| **Z-Drives (Lower 4 Corners)** | **100%** | 12 / 12 parts | Fully printed (`z_drive_main_b_x2` done on 08.10.2026!) |
+| **XY-Joints** | **100%** | Hardware | All-Metal CNC 6061 Alu XY-Joints (AliExpress #1005008506747887) |
 | **A/B-Drive Units (Rear Motors)** | **20%** | 2 / 7 parts | STLs ready in `Mods_PinMod_AB_XY` & `Stock_AB_Drives` |
-| **XY-Joints (MGN12)** | **0%** | 0 / 5 parts | STLs ready in `Mods_PinMod_AB_XY` & `Stock_XY_Joints` |
 | **Electronics Bay** | **0%** | 0 / ~14 parts | STLs ready in `Mods_Electronics_U2C_Pi` |
 | **Skirts (350 mm)** | **0%** | 0 / ~16 parts | Pending |
 | **Panels & Doors (4 mm)** | **0%** | 0 / ~35 parts | 270° Hinges ready in `Mods_Door_Hinges_270` |
@@ -104,18 +104,19 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 - [x] `z_drive_retainer_a_x2.stl` (2× retainer side A)
 - [x] `z_drive_retainer_b_x2.stl` (2× retainer side B)
 - [x] `z_drive_main_a_x2.stl` (2× main body side A)
+- [x] `z_drive_main_b_x2.stl` (2× main body side B – Printed 08.10.2026!)
 
 ### Z-Idlers (Top Frame Corners – Top-Adjustable Beefy Z-Idlers Mod)
 - [x] 4× Top-Adjustable Beefy Z-Idlers ([Printables #726338](https://www.printables.com/model/726338-top-adjustable-voron-beefy-z-idlers)) – Replaces and eliminates all 8 stock Z-tensioner brackets and tensioners!
+
+### XY-Joints (Gantry Corners)
+- [x] 2× All-Metal CNC 6061 Alu XY-Joints ([AliExpress #1005008506747887](https://de.aliexpress.com/item/1005008506747887.html)) – Replaces and eliminates all 4 printed XY-joint halves!
 
 ---
 
 ## 2. Missing Parts Todo List (`[ ]`)
 
 ### Priority 1: Motion System & Frame Mechanics
-
-#### Z-Drives (Finish Lower Assembly)
-- [ ] `z_drive_main_b_x2.stl` – **Qty: 2** *(Primary Color) – The final piece needed to complete all 4 Z-Drives! (Located in `B:\Voron\Z_Drive\`)*
 
 #### A/B-Drive Units (Rear Upper Motor Mounts)
 *Recommended: Hartk Pin-Mod in `B:\Voron\Mods_PinMod_AB_XY\` (uses 5mm ground dowel pins for smoother rotation and stiffer shafts) or Stock in `B:\Voron\Stock_AB_Drives\`.*
@@ -124,13 +125,6 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 - [ ] `b_drive_frame_upper_pinned.stl` (or stock `b_drive_frame_upper.stl`) – **Qty: 1** *(Primary Color)*
 - [ ] `b_drive_frame_lower_pinned.stl` (or stock `b_drive_frame_lower.stl`) – **Qty: 1** *(Primary Color)*
 - [ ] `[a]_cable_cover.stl` – **Qty: 1** *(Accent Color)*
-
-#### XY-Joints (MGN12)
-*Recommended: Hartk Pin-Mod in `B:\Voron\Mods_PinMod_AB_XY\` or Stock in `B:\Voron\Stock_XY_Joints\`.*
-- [ ] `MGN12_xy_joint_left_upper_pinned.stl` (or stock `xy_joint_left_upper_MGN12.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `MGN12_xy_joint_left_lower_pinned.stl` (or stock `xy_joint_left_lower_MGN12.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `MGN12_xy_joint_right_upper_pinned.stl` (or stock `xy_joint_right_upper_MGN12.stl`) – **Qty: 1** *(Primary Color)*
-- [ ] `MGN12_xy_joint_right_lower_pinned.stl` (or stock `xy_joint_right_lower_MGN12.stl`) – **Qty: 1** *(Primary Color)*
 
 #### Z Drag Chain Guides
 *(Note: X/Y drag chains omitted due to CAN bus umbilical)*
