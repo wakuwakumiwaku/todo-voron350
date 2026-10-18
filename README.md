@@ -11,7 +11,7 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 * **Toolhead:** Voron Stealthburner
 * **Hotend:** Phaetus Revo Voron
 * **Extruder:** Galileo 2 Extruder (G2E) – Planetary 9:1
-* **Toolhead PCB:** BigTreeTech EBB SB2209 RP2040 CAN Bus (PG7 Cable Gland Umbilical)
+* **Toolhead PCB:** BigTreeTech EBB SB2209 RP2040 CAN Bus (`c56c83111439`, Katapult + Klipper v0.13.0-800 on GPIO 4/5 @ 1Mbit bench-verified)
 * **Probe / X-Carriage:** ChaoticLab CNC Voron TAP V2 (All-Metal CNC Aluminum)
 * **Front Idlers:** Shang Bo Front Idlers Mod (SBFI V2.4)
 * **Z-Joints:** GE5C Spherical Bearing Mod (igus EGLM-05)
@@ -19,7 +19,7 @@ Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** b
 * **XY-Joints:** All-Metal CNC 6061 Aluminum XY-Joints ([AliExpress #1005008506747887](https://de.aliexpress.com/item/1005008506747887.html))
 * **A/B-Drives:** Hartk Pin-Mod (`Mods_PinMod_AB_XY`)
 * **XY-Endstop:** Hartk D2F Microswitch PCB Pod
-* **CAN Transceiver:** BigTreeTech U2C v2.1 (Electroleon DIN Mount in `Mods_Electronics_U2C_Pi`)
+* **CAN Transceiver:** BigTreeTech U2C v2.1 (CandleLight `gs_usb` 1 Mbit/s, Electroleon DIN Mount in `Mods_Electronics_U2C_Pi`)
 * **Controller:** BigTreeTech Octopus / Octopus Pro
 * **SBC:** Raspberry Pi 4 (LDO Beefy DIN Mount in `Mods_Electronics_U2C_Pi`)
 
