@@ -73,6 +73,7 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 | **Z-Drives (Lower 4 Corners)** | **100%** | 12 / 12 parts | Fully printed (`z_drive_main_b_x2` done on 08.10.2026!) |
 | **XY-Joints** | **100%** | Hardware | All-Metal CNC 6061 Alu XY-Joints (AliExpress #1005008506747887) |
 | **A/B-Drive Units (Rear Motors)** | **100%** | Hardware | All-Metal CNC 6061 Alu A/B Drives (Pins pre-installed!) |
+| **CAN Bus & Toolhead Electronics** | **100%** | Hardware & FW | Katapult + Klipper on EBB SB2209 (`c56c83111439`), U2C v2.1 1Mbit verified |
 | **Electronics Bay** | **0%** | 0 / ~14 parts | STLs ready in `Mods_Electronics_U2C_Pi` |
 | **Skirts (350 mm)** | **0%** | 0 / ~16 parts | Pending |
 | **Panels & Doors (4 mm)** | **0%** | 0 / ~35 parts | 270° Hinges ready in `Mods_Door_Hinges_270` |
@@ -224,4 +225,47 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 
 ---
 
-*Last updated: 01.10.2026 via Fluidd print audit.*
+## 3. Electronics & CAN Bus System Architecture (Bench-Tested & Verified)
+
+### Hardware & Configuration Summary
+* **Raspberry Pi 4 (MainsailOS):**
+  * Updated to Mainsail v2.19.0, Klipper v0.13.0-800, Moonraker, Crowsnest.
+  * Static CAN interface `can0` configured (`bitrate 1000000`, `txqueuelen 1024`).
+  * SSH Host: `voron` (`192.168.1.120`), User: `admin`.
+* **BTT U2C v2.1 (USB-to-CAN Bridge):**
+  * Firmware: Factory CandleLight (`gs_usb`) at 1,000,000 baud.
+  * `120R` termination jumper installed on `MCU-CAN-12R` (bottom edge under STM32 MCU).
+  * USB-C connected to Raspberry Pi 4 USB 2.0 port (powers U2C logic).
+* **BTT EBB SB2209 RP2040 (Toolhead Board):**
+  * Flashed with combined Katapult bootloader (`0x10000000`) and Klipper firmware (`0x10004000`, CAN GPIO 4/5 @ 1 Mbit/s).
+  * CANBus UUID: `c56c83111439` (configured in `klipper_config/ebb-sb2209.cfg`).
+  * `120R` termination jumper installed next to the 4-DIP switch block under `TH0`.
+  * Live bench test: 147 MCU commands loaded, full handshake completed, 0 bus errors.
+* **BTT Octopus (Main Controller):**
+  * Connected via USB-C to USB-A directly into Raspberry Pi 4. Configured as primary `[mcu]` in `printer.cfg`.
+
+### Wiring & Umbilical Pinout
+```text
+[24V PSU / WAGO +24V] -----------------------------> EBB SB2209 XT30(2+2) (Pin 1: VIN)
+[24V PSU / WAGO GND]  -----------------------------> EBB SB2209 XT30(2+2) (Pin 2: GND)
+
+[U2C v2.1 - 4-Pin Header]
+  Left Column  (CAN_L) ---- Green Wire ------------> EBB SB2209 XT30(2+2) (Pin 3: CAN_L)
+  Right Column (CAN_H) ---- Yellow Wire -----------> EBB SB2209 XT30(2+2) (Pin 4: CAN_H)
+```
+
+> [!NOTE]
+> The 2-pin DuPont connector on the U2C 4-pin header must be plugged **horizontally** across the two columns:
+> * **Left:** Green wire (`CAN_L`)
+> * **Right:** Yellow wire (`CAN_H`)
+> 
+> *Plugging vertically across the same column shorts CAN_H to CAN_L and triggers a `BUS-OFF` error.*
+> 
+> The U2C is fully powered via USB-C from the Raspberry Pi and does not require a 24V connection when toolhead power is routed directly via WAGO blocks from the PSU.
+
+> [!CAUTION]
+> **Remove the `USB_5V` jumper** from the EBB SB2209 before applying 24V main power in the printer frame! The `USB_5V` jumper is strictly for bench flashing/testing.
+
+---
+
+*Last updated: 18.10.2026 – CAN bus bench test & firmware configuration 100% verified.*
