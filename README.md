@@ -1,6 +1,10 @@
 # Voron 2.4 R2 (350 mm) – Printed Parts Checklist & Build Tracker
 
-Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** build based on the print history from Fluidd / Klipper (`192.168.1.80`).
+> [!NOTE]
+> 🤖 **Agent & Machine Handoff:** For live system status, network IPs, SSH credentials, hardware UUIDs, and disaster recovery procedures, see [`SYSTEM_STATE.md`](SYSTEM_STATE.md).
+> All Klipper configurations are version-controlled in [`klipper_config/`](klipper_config/) and synchronized with the live printer at `192.168.1.120`.
+
+Automated parts tracker and progress checklist for the **Voron 2.4 R2 350 mm** build. *(Parts print history tracked from Snapmaker U1 at `192.168.1.80`; Voron Raspberry Pi 4 online at `192.168.1.120`)*.
 
 ---
 
