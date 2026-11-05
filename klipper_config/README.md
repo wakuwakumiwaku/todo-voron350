@@ -78,6 +78,19 @@ This directory contains the Klipper and MainsailOS configuration files and hardw
 
 ---
 
+## Offline Helper Tests
+
+Run `python3 -m unittest discover -s tests -v` from the repository root.
+These tests copy the helper into a temporary synthetic installation and use inert
+query, flash and service executable spies. No CAN interface, board, firmware,
+privileged command or real printer configuration is accessed.
+
+Options 4 and 6 refuse failed discovery commands or multiple distinct UUIDs
+instead of using partial query output or choosing the first board. A successful
+single-UUID scan keeps the existing flow; an empty successful Katapult scan still
+allows explicit manual entry. This is not a hardware or firmware compatibility
+check, and does not change build settings, device identifiers or configuration values.
+
 ## 5. File Inventory
 
 * **`printer.cfg`**: Active main printer configuration (includes kinematics, QGL, bed mesh, macros, and `[include ebb-sb2209.cfg]`).

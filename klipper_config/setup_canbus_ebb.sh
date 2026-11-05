@@ -70,7 +70,15 @@ EOF
 
     4)
         echo "--> Querying Katapult UUID on can0..."
-        KAT_UUID=$(python3 "$SCRIPT_DIR/katapult/scripts/flashtool.py" -i can0 -q | grep -oE "0x[0-9a-fA-F]+|[0-9a-fA-F]{12}" | head -n1 || true)
+        if ! UUID_SCAN=$(python3 "$SCRIPT_DIR/katapult/scripts/flashtool.py" -i can0 -q); then
+            echo "Error: Katapult UUID query failed; refusing to flash." >&2
+            exit 1
+        fi
+        KAT_UUID=$(printf '%s\n' "$UUID_SCAN" | grep -oE "0x[0-9a-fA-F]+|[0-9a-fA-F]{12}" | sort -u || true)
+        if [[ "$KAT_UUID" == *$'\n'* ]]; then
+            echo "Error: multiple Katapult UUIDs found; refusing to choose a flash target." >&2
+            exit 1
+        fi
         if [ -z "$KAT_UUID" ]; then
             read -rp "Could not auto-detect Katapult UUID. Enter Katapult UUID manually: " KAT_UUID
         else
@@ -104,7 +112,15 @@ EOF
 
     6)
         echo "--> Scanning can0 for Klipper UUID..."
-        FOUND_UUID=$("$SCRIPT_DIR/klippy-env/bin/python" "$SCRIPT_DIR/klipper/scripts/canbus_query.py" can0 | grep -oE "[0-9a-fA-F]{12}" | head -n1 || true)
+        if ! UUID_SCAN=$("$SCRIPT_DIR/klippy-env/bin/python" "$SCRIPT_DIR/klipper/scripts/canbus_query.py" can0); then
+            echo "Error: CAN UUID query failed; leaving configuration unchanged." >&2
+            exit 1
+        fi
+        FOUND_UUID=$(printf '%s\n' "$UUID_SCAN" | grep -oE "[0-9a-fA-F]{12}" | sort -u || true)
+        if [[ "$FOUND_UUID" == *$'\n'* ]]; then
+            echo "Error: multiple CAN UUIDs found; leaving configuration unchanged." >&2
+            exit 1
+        fi
         if [ -n "$FOUND_UUID" ]; then
             echo "Discovered UUID: $FOUND_UUID"
             if [ -f "$EBB_CFG" ]; then
