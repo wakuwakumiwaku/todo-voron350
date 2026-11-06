@@ -96,7 +96,7 @@ check, and does not change build settings, device identifiers or configuration v
 * **`printer.cfg`**: Active main printer configuration (includes kinematics, QGL, bed mesh, macros, and `[include ebb-sb2209.cfg]`).
 * **`ebb-sb2209.cfg`**: Dedicated toolhead configuration for the EBB SB2209 RP2040 board over CAN bus.
 * **`printer-backup-before-canbus.cfg`**: Original working configuration prior to the CAN bus upgrade.
-* **`setup_canbus_ebb.sh`**: Turnkey interactive script to compile/flash Katapult & Klipper onto the EBB board and auto-detect the CAN UUID.
+* **`setup_canbus_ebb.sh`**: Turnkey interactive script to compile/flash Katapult & Klipper onto the EBB board and auto-detect the CAN UUID. If option 6 updates the UUID but the Klipper restart fails, the helper exits nonzero and explains that the edited configuration is not confirmed active. It leaves the updated file available for diagnosis and a deliberate restart.
 * **`moonraker.conf`**: Moonraker API server and update manager settings.
 * **`crowsnest.conf`**: Crowsnest camera streamer settings.
 * **`sonar.conf`**: Sonar network keepalive settings.

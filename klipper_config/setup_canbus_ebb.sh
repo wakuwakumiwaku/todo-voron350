@@ -127,7 +127,10 @@ EOF
                 sed -i "s/canbus_uuid:.*/canbus_uuid: $FOUND_UUID/" "$EBB_CFG"
                 echo "Successfully updated $EBB_CFG with UUID: $FOUND_UUID"
                 echo "Restarting Klipper service..."
-                sudo systemctl restart klipper || true
+                if ! sudo systemctl restart klipper; then
+                    echo "Error: Klipper restart failed; configuration was updated but is not confirmed active." >&2
+                    exit 1
+                fi
             else
                 echo "Warning: $EBB_CFG not found."
             fi

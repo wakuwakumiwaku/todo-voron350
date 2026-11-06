@@ -31,13 +31,13 @@ if command in ("python", "python3"):
         sys.exit(0)  # Inert flash receipt, no firmware or device is opened.
 if command == "sudo":
     assert args == ["systemctl", "restart", "klipper"]
-    sys.exit(0)  # Never invoke sudo/systemctl.
+    sys.exit(int(os.environ["HELPER_SPY_RESTART_EXIT"]))  # Never invoke sudo/systemctl.
 raise AssertionError("forbidden helper command: " + command + repr(args))
 '''
 
 
 class UUIDDiscoveryTests(unittest.TestCase):
-    def invoke(self, option, output, query_exit=0, manual=""):
+    def invoke(self, option, output, query_exit=0, manual="", restart_exit=0):
         with tempfile.TemporaryDirectory(prefix="can-helper-spy-") as temp:
             root = Path(temp).resolve()
             app, tools = root / "app", root / "bin"
@@ -60,14 +60,15 @@ class UUIDDiscoveryTests(unittest.TestCase):
                 path.chmod(0o700)
             env = {"PATH": str(tools), "HOME": str(root), "TMPDIR": str(root), "LC_ALL": "C",
                    "HELPER_SPY_ROOT": str(root), "HELPER_SPY_QUERY": output,
-                   "HELPER_SPY_QUERY_EXIT": str(query_exit)}
+                   "HELPER_SPY_QUERY_EXIT": str(query_exit),
+                   "HELPER_SPY_RESTART_EXIT": str(restart_exit)}
             result = subprocess.run([BASH, str(script)], input=f"{option}\n{manual}\n".encode(),
                                     cwd=root, env=env, capture_output=True, timeout=10)
             calls = [json.loads(line) for line in (root / "calls.jsonl").read_text().splitlines()]
             self.assertEqual(script.read_bytes(), SCRIPT.read_bytes())
             receipts = os.environ.get("CAN_HELPER_TEST_RECEIPTS")
             if receipts:
-                suffix = hashlib.sha256((str(option) + output + str(query_exit) + manual).encode()).hexdigest()[:16]
+                suffix = hashlib.sha256((str(option) + output + str(query_exit) + manual + str(restart_exit)).encode()).hexdigest()[:16]
                 target = Path(receipts) / self._testMethodName / suffix
                 target.mkdir(parents=True, exist_ok=False)
                 (target / "stdout.bin").write_bytes(result.stdout)
@@ -122,6 +123,16 @@ class UUIDDiscoveryTests(unittest.TestCase):
                     self.assertEqual(after, before)
                 else:
                     self.assertEqual(after, before.replace(b"aaaaaaaaaaaa", b"111111111111"))
+
+    def test_restart_failure_keeps_updated_config_but_reports_incomplete_setup(self):
+        result, calls, before, after = self.invoke(
+            6, "Found canbus_uuid=111111111111", restart_exit=43)
+        self.assertEqual(after, before.replace(b"aaaaaaaaaaaa", b"111111111111"))
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[1], {"command": "sudo", "argv": ["systemctl", "restart", "klipper"]})
+        self.assertNotEqual(result.returncode, 0, "failed restart must not report successful setup")
+        self.assertIn(b"restart failed", result.stderr.lower())
+        self.assertIn(b"configuration was updated", result.stderr.lower())
 
     def test_empty_katapult_scan_still_allows_explicit_manual_uuid(self):
         result, calls, before, after = self.invoke(4, "No devices", manual="111111111111")
