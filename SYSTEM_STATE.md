@@ -87,12 +87,27 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 
 ## 5. Current Project Status & Next Steps
 
+*Last updated: 2026-11-16*
+
 * [x] **Motion System & Kinematics:** 100% printed and assembled (CNC A/B drives, CNC XY-joints, GE5C Z-joints, SBFI front idlers, BZI top idlers, CNC Tap V2).
 * [x] **Electronics & CAN Bench Test:** 100% verified (Pi 4, U2C v2.1, EBB SB2209 RP2040 flashed with Katapult + Klipper, UUID discovered, 60 $\Omega$ bus termination verified).
-* [ ] **Next Step 1:** Mount EBB SB2209 to Galileo 2 toolhead with PG7 cable mount and cable door.
-* [ ] **Next Step 2:** Route 4-wire umbilical cable through frame to electronics bay.
-  * Connect Red (+24V) & Black (GND) to 24V WAGO distribution blocks.
-  * Connect Yellow (CAN_H) & Green (CAN_L) horizontally to U2C 4-pin header.
+* [x] **Thermistor Cable Repair & Bay Disassembly (2026-11-16):**
+  * Thermistor cable repaired (live Klipper check pending power-on).
+  * Bottom electronics bay cables unplugged to reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails.
+  * Identified and removed/retired unnecessary previous-owner wiring: unused 4-color SFS-style `STOP`/`DIAG` cable and obsolete `ABL` inductive-probe lead (`^PG15`, replaced by Voron Tap V2 on `EBBCan:gpio6`).
+  * Verified USB-A to USB-C data+power cable with BTT U2C (`lsusb`: `1d50:606f`, `can0` detected).
+* [ ] **Next Step 1 – Splice & Test `XY STOP` (Eliminating LDO Breakout PCB):**
+  * Measure 4-pin `XY STOP` cable (`~0 Ω` untouched, `OL` when pressed) to identify common `GND`, `X-Signal`, `Y-Signal`, and unused `Vin` (insulate `Vin`).
+  * Splice `XY STOP` directly onto the Octopus-side 3-pin pigtails of `XES` (`DIAG3` / `PG11`) and `YES` (`DIAG0` / `PG6`): split `GND` to both middle pins, `X` / `Y` to the populated outer signal pins (`5V` pin stays empty).
+* [ ] **Next Step 2 – Reseat Bottom Boards & Open Pre-Duct Wiring:**
+  * Reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails (keep cable ducts open during testing; use 90° USB cables/adapters or pre-plug USBs if clearance is tight).
+  * Reconnect Octopus per active `klipper_config/printer.cfg`: Bed SSR on `BED_OUT` (`PA1`), `Z`/`Z1`/`Z2` on `MOTOR2_1`/`MOTOR3`/`MOTOR4`, `Z3` on `MOTOR7`, `X` on `DIAG3` (`PG11`), `Y` on `DIAG0` (`PG6`), `12V` jumpers on `FAN4` and `FAN6`/`FAN7` where needed.
+  * Connect U2C USB-C to RPi 4 black USB 2.0 port, verify U2C `120R` jumper (`MCU-CAN-12R`) is ON, connect CAN horizontally (`Green = CAN_L` left, `Yellow = CAN_H` right), and connect EBB SB2209 24V via WAGO blocks.
   * ⚠️ **Ensure `USB_5V` jumper on EBB SB2209 is REMOVED before applying 24V!**
-* [ ] **Next Step 3:** Connect Octopus board via USB to Raspberry Pi 4 and power on printer.
-* [ ] **Next Step 4:** Print electronics bay mounts (`Mods_Electronics_U2C_Pi`), skirts, and panels.
+* [ ] **Next Step 3 – Open Bench Power-On & Klipper Verification (Before Closing Ducts):**
+  * Multimeter short check across `24V+` / `24V-` before powering on.
+  * Verify Pi USB/CAN recognition (`ls /dev/serial/by-id/*`, `ip -s link show can0`).
+  * With Toolhead (`EBBCan` + hotend thermistor), bed thermistor (`TB`/`PF3`), chamber thermistor (`T3`/`PF7`), Z motors, and provisionally A/B motors + `XY STOP` connected (never plug/unplug steppers or CAN while powered): verify Mainsail (`http://192.168.1.120`), temperatures, `QUERY_ENDSTOPS`, `QUERY_PROBE`, fans, and `STEPPER_BUZZ` (no homing).
+* [ ] **Next Step 4 – Gantry Assembly, Cable Ducts & Final Verification:**
+  * Assemble/install gantry and Z drives/belts, route cables neatly into ducts only after open tests pass, and re-verify `QUERY_ENDSTOPS`, `QUERY_PROBE`, and thermistors once ducts are closed.
+* [ ] **Next Step 5:** Print remaining electronics bay mounts, skirts, and panel hardware as needed.
