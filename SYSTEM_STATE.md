@@ -101,13 +101,25 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 * [x] **Thermistor Cable Repair & Bay Disassembly (2026-11-16):**
   * Thermistor cable repaired (live Klipper check pending power-on).
   * Bottom electronics bay cables unplugged to reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails.
-  * Printed `Octopus_bracket_set.stl` (align `pcb_din_clip` release tabs consistently toward the accessible side; verify all 4 M3 holes & clearance for screw terminals / USB-C before screwing down).
+  * Printed `Octopus_bracket_set.stl` (verified from STL: `96.6 mm` bar, `90.5 mm` ear spacing, `7.0 mm` ear offset, `4 mm` bar + `3 mm` standoff = `7 mm`; mount **ears pointing INWARD** toward board center so DIN clips sit **OUTER** at `~164 mm` span for maximum stability; check lower bar clearance vs USB-C plug; align `pcb_din_clip` release tabs consistently toward the accessible side).
   * Identified and removed/retired unnecessary previous-owner wiring: unused 4-color SFS-style `STOP`/`DIAG` cable and obsolete `ABL` inductive-probe lead (`^PG15`, replaced by Voron Tap V2 on `EBBCan:gpio6`).
   * Verified USB-A to USB-C data+power cable with BTT U2C (`lsusb`: `1d50:606f`, `can0` detected).
   * Inspected 24V PSU & Octopus power harness:
     * PSU is **MeanWell RSP-200-24** (`200 W` / `~8.3 A` total across 3× `+V` and 3× `-V` M3.5 terminals; terminal torque **0.8–1.0 N·m**; bottom M4 holes `150×50 mm`, max **3 mm** screw depth).
     * LDO harness uses 3× `+` (`POWER +`, `MOTOR POWER +`, `BED POWER +`) and 1× `-` (`POWER -`), since Octopus `-` (`GND`) terminals share an internal ground plane; 2× `-V` PSU terminals are free (one can take CAN umbilical `GND` directly).
     * **If replacing the stiff LDO harness with `18 AWG` silicone (~7–10 A continuous in bay ducts):** MUST run **separate `-` (`GND`) wires** for both `POWER` and `MOTOR POWER` (do NOT share a single `18 AWG` return wire for motors + logic!), with ferrules on Octopus terminals and fork lugs on the PSU. `18 AWG` is also plenty for CAN umbilical `24V`/`GND` (`~2.5–3.5 A`).
+
+### USB Cable Measurements & Ordering Specs (2026-11-16)
+* **Measured Lengths (Net + Recommended Order Length incl. Slack):**
+  1. **RPi 4 (USB 2.0) $\leftrightarrow$ BTT U2C v2.1 (USB-C):** `30 cm` (duct) + `5 cm` (RPi) + `8 cm` (U2C) = **`43 cm` net $\rightarrow$ order `50 cm` (0.5 m)**
+  2. **RPi 4 (USB 2.0) $\leftrightarrow$ BTT Octopus v1.1 (USB-C):** `25–30 cm` (duct) + RPi/Octopus leads $\approx$ **`35–40 cm` net $\rightarrow$ order `50 cm` (0.5 m)**
+  3. **5V PSU (RS-25-5) $\rightarrow$ RPi 4 (USB-C Power):** `5 + 7 + 14 + 14 + 2` = **`42 cm` net $\rightarrow$ order `50 cm` (0.5 m)** *(needs thick `18–20 AWG` power wires / 3A-rated USB-C cable or 2-wire 90° USB-C pigtail to prevent RPi undervoltage; strip/crimp PSU end with ferrules or fork lugs for RS-25-5 screw terminals)*
+* **Ordering Guidelines:**
+  * **Jacket:** **NOT braided** (no nylon sleeve – too stiff, snags on duct teeth); use soft **silicone, TPE, smooth PVC, or FPC ribbon** USB cables.
+  * **Data Specs (for U2C & Octopus):** Must be **shielded USB 2.0 data-sync cables** (no charge-only cables; USB 3.0 is unnecessary and stiffer). Avoid stacked plug-in 90° adapters (prefer molded 90° cables).
+  * **Right-Angle (90°) Connector Checks Before Ordering:**
+    * **USB-C end:** Check whether the 90° exit needs to go **sideways (left/right parallel to PCB)** vs **up/down** (note: USB-C flips 180° for up/down, NOT for sideways-vs-up!). On RPi 4 power, watch clearance next to Micro-HDMI 0.
+    * **USB-A end (RPi 4):** USB-A is **not reversible** and the two black USB 2.0 ports are stacked vertically right beside the blue USB 3.0 ports! Ensure two stacked 90° USB-A plugs exit in a non-blocking direction (e.g., both sideways away from the USB 3.0 ports, or straight USB-A at Pi + 90° USB-C at Octopus/U2C if Pi has clearance).
 
 ### Next Steps
 * [ ] **Next Step 1 – Print & Install 2× 35 mm DIN Rail End Stops:**
