@@ -121,6 +121,14 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
     * **USB-C end:** Check whether the 90° exit needs to go **sideways (left/right parallel to PCB)** vs **up/down** (note: USB-C flips 180° for up/down, NOT for sideways-vs-up!). On RPi 4 power, watch clearance next to Micro-HDMI 0.
     * **USB-A end (RPi 4):** USB-A is **not reversible** and the two black USB 2.0 ports are stacked vertically right beside the blue USB 3.0 ports! Ensure two stacked 90° USB-A plugs exit in a non-blocking direction (e.g., both sideways away from the USB 3.0 ports, or straight USB-A at Pi + 90° USB-C at Octopus/U2C if Pi has clearance).
 
+### CAN Umbilical Support & Shopping Notes (2026-11-16)
+* **Purpose:** Keeps the floating CAN umbilical (`1_G2E_CAN_Cable_Mount_PG7.stl` at toolhead to rear frame) arched cleanly upward so it never sags into A/B belts or extrusions.
+* **What to buy (choose ONE spine + sleeve):**
+  1. **Internal Spine (pick one):**
+     * **Option A (Preferred): Spring Steel / Piano Wire `0.8 mm`** (gold standard for 350 mm Voron; up to `1.0 mm` only for extra-heavy bundles; `≥1.2 mm` is too stiff). ⚠️ **Must round/file cut ends and seal with heatshrink/glue** so it cannot puncture wire insulation; clamp ends mechanically only.
+     * **Option B (Safer/simpler): Nylon Trimmer Line (weed-whacker cord) `2.4–3.0 mm`** (safer around wires, easy to cut, though nylon can take a slight permanent bend in hot chambers over time).
+  2. **Outer Sleeve:** **PET Expandable Braided Sleeve `8–10 mm`** (melt cut ends slightly with a lighter; route CAN cable + spine together inside the sleeve, and terminate/heatshrink the sleeve cleanly at the PG7 gland if all layers together are too tight inside the `3–6.5 mm` PG7 seal). *(Note: Do NOT use braided USB cables in the bottom bay ducts; braided PET sleeve is specifically for the upper moving CAN umbilical.)*
+
 ### Next Steps
 * [ ] **Next Step 1 – Print & Install 2× 35 mm DIN Rail End Stops:**
   * Print 2× M3-clamping 35 mm DIN rail end stops on Snapmaker U1 (`192.168.1.80`) and lock the **RSP-200-24** metal DIN clips in place (add 1–2 wraps of electrical tape on rail edges to remove the ~0.3–0.5 mm lateral clip play and verify both clip hooks engage both rail edges).
