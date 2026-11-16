@@ -111,12 +111,16 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 
 ### Next Steps
 * [ ] **Next Step 1 – Print & Install 2× 35 mm DIN Rail End Stops:**
-  * Print 2× M3-clamping 35 mm DIN rail end stops on Snapmaker U1 (`192.168.1.80`) and lock the **RSP-200-24** metal DIN clips in place (optionally add 1–2 wraps of electrical tape on rail edges for extra grip).
+  * Print 2× M3-clamping 35 mm DIN rail end stops on Snapmaker U1 (`192.168.1.80`) and lock the **RSP-200-24** metal DIN clips in place (add 1–2 wraps of electrical tape on rail edges to remove the ~0.3–0.5 mm lateral clip play and verify both clip hooks engage both rail edges).
 * [ ] **Next Step 2 – Splice & Test `XY STOP` (Eliminating LDO Breakout PCB):**
   * Measure 4-pin `XY STOP` cable (`~0 Ω` untouched, `OL` when pressed) to identify common `GND`, `X-Signal`, `Y-Signal`, and unused `Vin` (insulate `Vin`).
   * Splice `XY STOP` directly onto the Octopus-side 3-pin pigtails of `XES` (`DIAG3` / `PG11`) and `YES` (`DIAG0` / `PG6`): split `GND` to both middle pins, `X` / `Y` to the populated outer signal pins (`5V` pin stays empty).
 * [ ] **Next Step 3 – Reseat Bottom Boards & Open Pre-Duct Wiring:**
-  * Reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails (keep cable ducts open during testing; use 90° USB cables/adapters or pre-plug USBs if clearance is tight).
+  * Reseat **Octopus v1.1** (`M3` PCB / `M2x10` DIN clips), **Raspberry Pi 4** (`M2.5x6`/`M2.5x8` PCB — never force `M3` through Pi `M2.5` holes / `M2x10` DIN clips), and **BTT U2C v2.1** (`M3x6`/`M3x8` PCB / `M2x10` DIN clips) on DIN rails (keep cable ducts open during testing; use 90° USB cables/adapters or pre-plug USBs if clearance is tight).
+  * **Finalized 3-Duct Routing Plan (EMC separation):**
+    * **Left duct:** USB data cables (`RPi 4 ↔ U2C` and `RPi 4 ↔ Octopus`) + CAN data/umbilical (keep away from 230V AC / SSR).
+    * **Center duct:** Octopus motor/sensor/fan cables + RPi 4 5V USB-C power (routed from right $\rightarrow$ bottom $\rightarrow$ center up to RPi 4 using a thick, low-drop 5V cable).
+    * **Right duct (and area between right & center duct):** 230V AC mains/SSR wiring, `RSP-200-24`, and SSR.
   * Reconnect Octopus per active `klipper_config/printer.cfg`: Bed SSR on `BED_OUT` (`PA1`), `Z`/`Z1`/`Z2` on `MOTOR2_1`/`MOTOR3`/`MOTOR4`, `Z3` on `MOTOR7`, `X` on `DIAG3` (`PG11`), `Y` on `DIAG0` (`PG6`), `12V` jumpers on `FAN4` and `FAN6`/`FAN7` where needed.
   * Reconnect 24V PSU (`~0.9 N·m` on M3.5 terminals; avoid sharp 90° bends on fork lugs; use WAGO 221 blocks rather than stacking awkwardly on `+V`; use free `-V` for CAN `GND`).
   * Connect U2C USB-C to RPi 4 black USB 2.0 port, verify U2C `120R` jumper (`MCU-CAN-12R`) is ON, connect CAN horizontally (`Green = CAN_L` left, `Yellow = CAN_H` right) with strain relief at the bay entry and loose service loop (keep excess coiled loosely / away from 230V until gantry is fitted).
