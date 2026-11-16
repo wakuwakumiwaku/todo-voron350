@@ -158,14 +158,15 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 ### Priority 2: Electronics Bay (DIN Rails & Underbed)
 
 #### Controller & SBC Mounts
-- [ ] `Octopus_bracket_set.stl` – **Qty: 1 set** *(BigTreeTech Octopus / Octopus Pro)*
+- [x] `Octopus_bracket_set.stl` – **Qty: 1 set** *(BigTreeTech Octopus / Octopus Pro – printed 16.11.2026)*
 - [ ] `raspberrypi_bracket.stl` (or LDO `beefy_raspberry_bracket.stl`) – **Qty: 1**
 - [ ] `pcb_din_clip_x3.stl` – **Qty: 6 to 8 clips** *(DIN rail clips for all electronics)*
 
-#### Power Supply Brackets (LDO Kit PSUs)
-- [ ] `lrs_200_psu_bracket_x2.stl` – **Qty: 2** *(MeanWell LRS-200-24 24V PSU)*
+#### Power Supply Brackets (LDO Rev C EU Kit PSUs)
+- [ ] **2× `DIN Rail End Stop` (35 mm TS35, M3 clamp)** *(Priority print for Snapmaker U1: clamps directly onto the 35 mm DIN rail above & below the MeanWell **RSP-200-24** metal DIN clips so the PSU stops sliding; no rail holes needed)*
+- [~] `lrs_200_psu_bracket_x2.stl` – *(Not applicable: EU LDO Rev C kit ships MeanWell **RSP-200-24** [215×115×30 mm, 4× M4 bottom holes 150×50 mm, max 3 mm depth], already on metal DIN clips)*
 - [ ] `rs25_psu_bracket.stl` – **Qty: 1** *(MeanWell RS-25-5 5V PSU)*
-- [ ] `PSU_stabilizer_50mm.stl` – **Qty: 1**
+- [ ] `PSU_stabilizer_50mm.stl` – **Qty: 1** *(Optional stabilizer if needed)*
 
 #### Terminal Mounts
 - [ ] `wago_221-415_mount_3by5.stl` – **Qty: 1** *(WAGO 221-415 distribution blocks)*
