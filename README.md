@@ -163,13 +163,14 @@ Für alle verbauten Custom-Mods werden folgende geschliffene 5 mm Passstifte / Z
 - [ ] `pcb_din_clip_x3.stl` – **Qty: 6 to 8 clips** *(DIN rail clips for all electronics)*
 
 #### Power Supply Brackets (LDO Rev C EU Kit PSUs)
-- [ ] **2× `DIN Rail End Stop` (35 mm TS35, M3 clamp)** *(Priority print for Snapmaker U1: clamps directly onto the 35 mm DIN rail above & below the MeanWell **RSP-200-24** metal DIN clips so the PSU stops sliding; no rail holes needed)*
+- [x] **2× `DIN Rail End Stop` (35 mm TS35, M3 clamp)** – *(Printed & installed 19.11.2026; MeanWell **RSP-200-24** secured on DIN rail)*
 - [~] `lrs_200_psu_bracket_x2.stl` – *(Not applicable: EU LDO Rev C kit ships MeanWell **RSP-200-24** [215×115×30 mm, 4× M4 bottom holes 150×50 mm, max 3 mm depth], already on metal DIN clips)*
 - [ ] `rs25_psu_bracket.stl` – **Qty: 1** *(MeanWell RS-25-5 5V PSU)*
 - [ ] `PSU_stabilizer_50mm.stl` – **Qty: 1** *(Optional stabilizer if needed)*
+- [ ] **MeanWell `RSP-200-24` Terminal Cover** *(In progress 19.11.2026)*
 
 #### Terminal Mounts
-- [ ] `wago_221-415_mount_3by5.stl` – **Qty: 1** *(WAGO 221-415 distribution blocks)*
+- [ ] **Compact 2× `WAGO 221-415` Mount** *(In progress 19.11.2026: note stock `wago_221-415_mount_3by5.stl` is `126.8 × 23.0 mm` bridging two DIN rails; use a compact single-rail/stacked ~1.5–2 cm mount, 2020 extrusion mount, or deck mount for the 24V `+`/`-` WAGO bus)*
 - [ ] `bed_wago_mount.stl` – **Qty: 1** *(LDO bed heater terminal block mount)*
 
 ---

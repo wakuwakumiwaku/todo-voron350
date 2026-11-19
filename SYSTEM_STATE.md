@@ -87,17 +87,21 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 
 ## 5. Current Project Status & Next Steps
 
-*Last updated: 2026-11-16 (evening)*
+*Last updated: 2026-11-19*
 
-### Immediate Task for Next PC / Snapmaker U1 (`192.168.1.80`)
-* **Print 2× `DIN Rail End Stop` (35 mm TS35 DIN rail clamp with M3 screw/nut):**
-  * **Why:** The 24V PSU is a **MeanWell RSP-200-24** (LDO Voron 2.4 Rev C EU kit, mounted with metal DIN clips). Metal-on-metal clips slide along the smooth 35 mm DIN rail, whereas the lighter SSR on its clip stays put.
-  * **Requirement:** One clamping end stop **above** and one **below** the PSU directly on the 35 mm TS35 DIN rail (clamping onto the rail edges/back via M3 screw + nut — **must NOT rely on holes in the DIN rail**, since the rail has no M3 screw holes here).
-  * **Recommended Material:** ABS/ASA (or PETG for quick test if inside cool electronics bay; ABS/ASA preferred).
+### Immediate Task (In Progress on Snapmaker U1 / Desktop)
+* **Print `RSP-200-24` Terminal Cover + Compact 2× `WAGO 221-415` Mount:**
+  * **Terminal Cover:** Safety cover over the MeanWell `RSP-200-24` AC/DC screw terminals.
+  * **WAGO Mount:** Note that stock Voron `wago_221-415_mount_3by5.stl` is **`126.8 × 23.0 mm`** and spans across **two** parallel DIN rails (`23 mm` rail length). Since free DIN rail length near the PSU is limited (`< 3 cm`), print either a **compact stacked/vertical 2× WAGO 221-415 single-rail mount** (`~15–20 mm` along rail), a **2020-extrusion M3 mount**, or a **deck-plate mount** near the `24V` (`+V`/`-V`) end of the PSU (away from `AC/L`/`AC/N`).
 
 ### Completed & Verified
 * [x] **Motion System & Kinematics:** 100% printed and assembled (CNC A/B drives, CNC XY-joints, GE5C Z-joints, SBFI front idlers, BZI top idlers, CNC Tap V2).
 * [x] **Electronics & CAN Bench Test:** 100% verified (Pi 4, U2C v2.1, EBB SB2209 RP2040 flashed with Katapult + Klipper, UUID discovered, 60 $\Omega$ bus termination verified).
+* [x] **24V PSU (`RSP-200-24`) Mounted on DIN Rail (2026-11-19):**
+  * Printed and installed **DIN Rail End Stops** on the 35 mm DIN rail; **MeanWell RSP-200-24** is now secured on the rail.
+  * Finalized **central 24V WAGO 221-415 (`32 A` IEC, `0.14–4 mm²`) distribution architecture**:
+    * Short **`14 or 16 AWG`** main feeders (`~6–10 cm`, fork lugs at PSU `0.8–1.0 N·m`, bare `~11 mm` in WAGO) from **1× `+V`** and **1× `-V`** on `RSP-200-24` into **2× WAGO 221-415** (`+24V` bus and `GND` bus), positioned on the 24V side away from 230V AC terminals.
+    * **4× separate `18 AWG` silicone pairs** (lightly hand-twisted ~1 turn per 4–5 cm, untwisted last ~4–5 cm; ferrules on Octopus ends, bare `~11 mm` in WAGO without ferrules) to **`MOTOR POWER +/-`**, **`POWER +/-`**, **`BED POWER +/-`**, and **`CANBUS +24V/GND`**.
 * [x] **Thermistor Cable Repair & Bay Disassembly (2026-11-16):**
   * Thermistor cable repaired (live Klipper check pending power-on).
   * Bottom electronics bay cables unplugged to reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails.
@@ -130,25 +134,27 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   2. **Outer Sleeve:** **PET Expandable Braided Sleeve `8–10 mm`** (melt cut ends slightly with a lighter; route CAN cable + spine together inside the sleeve, and terminate/heatshrink the sleeve cleanly at the PG7 gland if all layers together are too tight inside the `3–6.5 mm` PG7 seal). *(Note: Do NOT use braided USB cables in the bottom bay ducts; braided PET sleeve is specifically for the upper moving CAN umbilical.)*
 
 ### Next Steps
-* [ ] **Next Step 1 – Print & Install 2× 35 mm DIN Rail End Stops:**
-  * Print 2× M3-clamping 35 mm DIN rail end stops on Snapmaker U1 (`192.168.1.80`) and lock the **RSP-200-24** metal DIN clips in place (add 1–2 wraps of electrical tape on rail edges to remove the ~0.3–0.5 mm lateral clip play and verify both clip hooks engage both rail edges).
-* [ ] **Next Step 2 – Splice & Test `XY STOP` (Eliminating LDO Breakout PCB):**
+* [x] **Next Step 1 – Print & Install 35 mm DIN Rail End Stops:**
+  * Completed 2026-11-19: **MeanWell RSP-200-24** secured on the 35 mm DIN rail.
+* [ ] **Next Step 2 – Print `RSP-200-24` Terminal Cover & Compact 2× `WAGO 221-415` Mount:**
+  * Print terminal cover for `RSP-200-24` and a compact 2× `WAGO 221-415` holder (single-rail `~1.5–2 cm`, 2020 extrusion M3 mount, or deck-plate mount).
+* [ ] **Next Step 3 – Splice & Test `XY STOP` (Eliminating LDO Breakout PCB):**
   * Measure 4-pin `XY STOP` cable (`~0 Ω` untouched, `OL` when pressed) to identify common `GND`, `X-Signal`, `Y-Signal`, and unused `Vin` (insulate `Vin`).
   * Splice `XY STOP` directly onto the Octopus-side 3-pin pigtails of `XES` (`DIAG3` / `PG11`) and `YES` (`DIAG0` / `PG6`): split `GND` to both middle pins, `X` / `Y` to the populated outer signal pins (`5V` pin stays empty).
-* [ ] **Next Step 3 – Reseat Bottom Boards & Open Pre-Duct Wiring:**
+* [ ] **Next Step 4 – Reseat Bottom Boards & Open Pre-Duct Wiring:**
   * Reseat **Octopus v1.1** (`M3` PCB / `M2x10` DIN clips), **Raspberry Pi 4** (`M2.5x6`/`M2.5x8` PCB — never force `M3` through Pi `M2.5` holes / `M2x10` DIN clips), and **BTT U2C v2.1** (`M3x6`/`M3x8` PCB / `M2x10` DIN clips) on DIN rails (keep cable ducts open during testing; use 90° USB cables/adapters or pre-plug USBs if clearance is tight).
   * **Finalized 3-Duct Routing Plan (EMC separation):**
     * **Left duct:** USB data cables (`RPi 4 ↔ U2C` and `RPi 4 ↔ Octopus`) + CAN data/umbilical (keep away from 230V AC / SSR).
     * **Center duct:** Octopus motor/sensor/fan cables + RPi 4 5V USB-C power (routed from right $\rightarrow$ bottom $\rightarrow$ center up to RPi 4 using a thick, low-drop 5V cable).
     * **Right duct (and area between right & center duct):** 230V AC mains/SSR wiring, `RSP-200-24`, and SSR.
   * Reconnect Octopus per active `klipper_config/printer.cfg`: Bed SSR on `BED_OUT` (`PA1`), `Z`/`Z1`/`Z2` on `MOTOR2_1`/`MOTOR3`/`MOTOR4`, `Z3` on `MOTOR7`, `X` on `DIAG3` (`PG11`), `Y` on `DIAG0` (`PG6`), `12V` jumpers on `FAN4` and `FAN6`/`FAN7` where needed.
-  * Reconnect 24V PSU (`~0.9 N·m` on M3.5 terminals; avoid sharp 90° bends on fork lugs; use WAGO 221 blocks rather than stacking awkwardly on `+V`; use free `-V` for CAN `GND`).
+  * Wire 24V power via **2× WAGO 221-415** (`14/16 AWG` short feeders from `RSP-200-24` `+V`/`-V` at `0.8–1.0 N·m`, then 4× lightly hand-twisted `18 AWG` silicone pairs to `MOTOR POWER`, `POWER`, `BED POWER`, and `CANBUS`).
   * Connect U2C USB-C to RPi 4 black USB 2.0 port, verify U2C `120R` jumper (`MCU-CAN-12R`) is ON, connect CAN horizontally (`Green = CAN_L` left, `Yellow = CAN_H` right) with strain relief at the bay entry and loose service loop (keep excess coiled loosely / away from 230V until gantry is fitted).
   * ⚠️ **Ensure `USB_5V` jumper on EBB SB2209 is REMOVED before applying 24V!**
-* [ ] **Next Step 4 – Open Bench Power-On & Klipper Verification (Before Closing Ducts):**
+* [ ] **Next Step 5 – Open Bench Power-On & Klipper Verification (Before Closing Ducts):**
   * Multimeter short check across `24V+` / `24V-` before powering on.
   * Verify Pi USB/CAN recognition (`ls /dev/serial/by-id/*`, `ip -s link show can0`).
   * With Toolhead (`EBBCan` + hotend thermistor), bed thermistor (`TB`/`PF3`), chamber thermistor (`T3`/`PF7`), Z motors, and provisionally A/B motors + `XY STOP` connected (never plug/unplug steppers or CAN while powered): verify Mainsail (`http://192.168.1.120`), temperatures, `QUERY_ENDSTOPS`, `QUERY_PROBE`, fans, and `STEPPER_BUZZ` (no homing).
-* [ ] **Next Step 5 – Gantry Assembly, Cable Ducts & Final Verification:**
+* [ ] **Next Step 6 – Gantry Assembly, Cable Ducts & Final Verification:**
   * Assemble/install gantry and Z drives/belts, verify full travel before trimming CAN umbilical slack, route cables neatly into ducts only after open tests pass, and re-verify `QUERY_ENDSTOPS`, `QUERY_PROBE`, and thermistors once ducts are closed.
-* [ ] **Next Step 6:** Print remaining electronics bay mounts, skirts, and panel hardware as needed.
+* [ ] **Next Step 7:** Print remaining electronics bay mounts, skirts, and panel hardware as needed.
