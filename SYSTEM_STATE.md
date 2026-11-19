@@ -102,6 +102,10 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * Finalized **central 24V WAGO 221-415 (`32 A` IEC, `0.14–4 mm²`) distribution architecture**:
     * Short **`14 or 16 AWG`** main feeders (`~6–10 cm`, fork lugs at PSU `0.8–1.0 N·m`, bare `~11 mm` in WAGO) from **1× `+V`** and **1× `-V`** on `RSP-200-24` into **2× WAGO 221-415** (`+24V` bus and `GND` bus), positioned on the 24V side away from 230V AC terminals.
     * **4× separate `18 AWG` silicone pairs** (lightly hand-twisted ~1 turn per 4–5 cm, untwisted last ~4–5 cm; ferrules on Octopus ends, bare `~11 mm` in WAGO without ferrules) to **`MOTOR POWER +/-`**, **`POWER +/-`**, **`BED POWER +/-`**, and **`CANBUS +24V/GND`**.
+* [x] **USB Webcam Bench Test (`icSpring`, 2026-11-19):**
+  * Detected plug-and-play via Linux `uvcvideo` (`lsusb`: `32e6:9221 icSpring icspring camera`, serial `24091116320721`, USB 2.0 Hi-Speed `480 Mbit/s`, `bMaxPower: 100mA` descriptor / ~0.5–1.3 W active).
+  * `v4l2-ctl` capabilities: native **`MJPG`** at `1920×1080`, `1280×720`, and `640×480` (`15 / 30 fps`); `YUYV` at `640×480` (`30 fps`). Fixed focus (no autofocus hunting), `power_line_frequency=50Hz`, `white_balance_automatic=0` (`5600 K` default).
+  * Verified `1280×720` MJPG snapshot and **5 s `1920×1080 @ 30 fps` recording (`149` frames in `5.04 s`, `~28.2 Mbit/s`) + live `mpv` feed** — sharp wide-angle lens, zero drops.
 * [x] **Thermistor Cable Repair & Bay Disassembly (2026-11-16):**
   * Thermistor cable repaired (live Klipper check pending power-on).
   * Bottom electronics bay cables unplugged to reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails.
@@ -124,6 +128,9 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * **Right-Angle (90°) Connector Checks Before Ordering:**
     * **USB-C end:** Check whether the 90° exit needs to go **sideways (left/right parallel to PCB)** vs **up/down** (note: USB-C flips 180° for up/down, NOT for sideways-vs-up!). On RPi 4 power, watch clearance next to Micro-HDMI 0.
     * **USB-A end (RPi 4):** USB-A is **not reversible** and the two black USB 2.0 ports are stacked vertically right beside the blue USB 3.0 ports! Ensure two stacked 90° USB-A plugs exit in a non-blocking direction (e.g., both sideways away from the USB 3.0 ports, or straight USB-A at Pi + 90° USB-C at Octopus/U2C if Pi has clearance).
+  * **USB Webcam Extension Cable (`icSpring` 1080p Camera $\rightarrow$ RPi 4 blue USB 3.0 port):**
+    * Order a **shielded USB 2.0 extension cable (`USB-A male to USB-A female`, `0.5–1.0 m`**, keep total length ≤ ~1.5 m).
+    * **Do NOT splice/solder** the tiny `28–30 AWG` twisted `D+`/`D-` pair or break the 5th shield wire (480 Mbit/s impedance & shielding are critical near stepper/230V wiring). Secure the USB-A coupling with heatshrink/electrical tape, mount the camera low/front (cooler during ABS prints), route via lower 2020 slot $\rightarrow$ rear Z-chain/deck cutout (avoid 230V duct), and route chamber LED wires (`HE2`/`PB10`) via rear `Z1`/`Z2` & `z_belt_cover` wire pass-through.
 
 ### CAN Umbilical Support & Shopping Notes (2026-11-16)
 * **Purpose:** Keeps the floating CAN umbilical (`1_G2E_CAN_Cable_Mount_PG7.stl` at toolhead to rear frame) arched cleanly upward so it never sags into A/B belts or extrusions.
@@ -155,6 +162,7 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * Multimeter short check across `24V+` / `24V-` before powering on.
   * Verify Pi USB/CAN recognition (`ls /dev/serial/by-id/*`, `ip -s link show can0`).
   * With Toolhead (`EBBCan` + hotend thermistor), bed thermistor (`TB`/`PF3`), chamber thermistor (`T3`/`PF7`), Z motors, and provisionally A/B motors + `XY STOP` connected (never plug/unplug steppers or CAN while powered): verify Mainsail (`http://192.168.1.120`), temperatures, `QUERY_ENDSTOPS`, `QUERY_PROBE`, fans, and `STEPPER_BUZZ` (no homing).
+  * **Webcam (`klipper_config/crowsnest.conf`):** Plug `icSpring` camera into RPi 4 blue USB 3.0 port (plug-and-play `uvcvideo` on port `8080`); bump `resolution` from `640x480` to `1280x720` (or `1920x1080` @ `15–20 fps`), optionally switch `/dev/video0` to `/dev/v4l/by-id/...`, and tune `white_balance_automatic=1` via `v4l2ctl` / rotation in Mainsail once mounted.
 * [ ] **Next Step 6 – Gantry Assembly, Cable Ducts & Final Verification:**
   * Assemble/install gantry and Z drives/belts, verify full travel before trimming CAN umbilical slack, route cables neatly into ducts only after open tests pass, and re-verify `QUERY_ENDSTOPS`, `QUERY_PROBE`, and thermistors once ducts are closed.
 * [ ] **Next Step 7:** Print remaining electronics bay mounts, skirts, and panel hardware as needed.
