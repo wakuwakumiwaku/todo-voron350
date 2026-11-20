@@ -87,7 +87,7 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 
 ## 5. Current Project Status & Next Steps
 
-*Last updated: 2026-11-19*
+*Last updated: 2026-11-20*
 
 ### Immediate Task (In Progress on Snapmaker U1 / Desktop)
 * **Print `RSP-200-24` Terminal Cover + Compact 2× `WAGO 221-415` Mount:**
@@ -102,10 +102,17 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * Finalized **central 24V WAGO 221-415 (`32 A` IEC, `0.14–4 mm²`) distribution architecture**:
     * Short **`14 or 16 AWG`** main feeders (`~6–10 cm`, fork lugs at PSU `0.8–1.0 N·m`, bare `~11 mm` in WAGO) from **1× `+V`** and **1× `-V`** on `RSP-200-24` into **2× WAGO 221-415** (`+24V` bus and `GND` bus), positioned on the 24V side away from 230V AC terminals.
     * **4× separate `18 AWG` silicone pairs** (lightly hand-twisted ~1 turn per 4–5 cm, untwisted last ~4–5 cm; ferrules on Octopus ends, bare `~11 mm` in WAGO without ferrules) to **`MOTOR POWER +/-`**, **`POWER +/-`**, **`BED POWER +/-`**, and **`CANBUS +24V/GND`**.
-* [x] **USB Webcam Bench Test (`icSpring`, 2026-11-19):**
-  * Detected plug-and-play via Linux `uvcvideo` (`lsusb`: `32e6:9221 icSpring icspring camera`, serial `24091116320721`, USB 2.0 Hi-Speed `480 Mbit/s`, `bMaxPower: 100mA` descriptor / ~0.5–1.3 W active).
+* [x] **USB Webcam Bench Test (`icSpring`, 2026-11-19) & Sustained Datarate / RPi 4 Spec Verification (2026-11-20):**
+  * Detected plug-and-play via Linux `uvcvideo` (`lsusb`: `32e6:9221 icSpring icspring camera`, serial `24091116320721`, `bcdUSB 2.00` High-Speed `480 Mbit/s`, isochronous video endpoint up to `3×1024 B`, `bMaxPower: 100mA` descriptor / ~0.5–1.3 W active).
   * `v4l2-ctl` capabilities: native **`MJPG`** at `1920×1080`, `1280×720`, and `640×480` (`15 / 30 fps`); `YUYV` at `640×480` (`30 fps`). Fixed focus (no autofocus hunting), `power_line_frequency=50Hz`, `white_balance_automatic=0` (`5600 K` default).
-  * Verified `1280×720` MJPG snapshot and **5 s `1920×1080 @ 30 fps` recording (`149` frames in `5.04 s`, `~28.2 Mbit/s`) + live `mpv` feed** — sharp wide-angle lens, zero drops.
+  * **2026-11-19 check:** Verified `1280×720` MJPG snapshot and **5 s `1920×1080 @ 30 fps` recording (`149` frames in `5.04 s`, `~28.2 Mbit/s`) + live `mpv` feed** — sharp wide-angle lens, zero drops.
+  * **2026-11-20 live `v4l2-ctl --stream-mmap` & sustained stream test:**
+    * `1920×1080 MJPG` (30 fps requested): **~19.8–25.8 fps**, **~141–145 KB/frame** (`~22.5 Mbit/s` / `~2.8 MB/s` at 19.86 fps), **0 dropped frames** (consecutive sequence numbers; `auto_exposure=3` Aperture Priority Mode lengthens exposure to ~50 ms in dim lighting). `640×480 YUYV` streamed cleanly at `~19.85–19.88 fps`.
+    * Sustained **~5m46s `mpv` Wayland (`gpu-next`) `1920×1080` MJPG stream**: **0** kernel USB / `xhci_hcd` / `uvcvideo` errors, resets, or disconnects (`journalctl -k`).
+  * **RPi 4 USB 3.0 & Multi-Device Budget Verified:**
+    * **Blue USB-A (USB 3.0) port:** Backwards-compatible; `bcdUSB 2.00` camera negotiates **USB 2.0 High-Speed (480 Mbit/s)** on the blue port.
+    * **Combined Bandwidth (Webcam + Octopus v1.1 + U2C v2.1):** `~35–40 Mbit/s` total (`~22–34 Mbit/s` 1080p MJPG webcam + `<1 Mbit/s` each for USB 2.0 Full-Speed Octopus & U2C) — well within RPi 4's `480 Mbit/s` USB 2.0 bus / `4 Gbit/s` PCIe xHCI link.
+    * **Combined USB 5V Power:** `~150–200 mA` total (`100 mA` webcam + `~50–100 mA` U2C + `~0 mA` Octopus with `USB-PWR`/`VBUS` 5V jumper removed) out of RPi 4's `1200 mA` shared USB limit (requires solid `5.1V 3A` RPi 4 PSU).
 * [x] **Thermistor Cable Repair & Bay Disassembly (2026-11-16):**
   * Thermistor cable repaired (live Klipper check pending power-on).
   * Bottom electronics bay cables unplugged to reseat **Octopus v1.1**, **Raspberry Pi 4**, and **BTT U2C v2.1** on DIN rails.
@@ -157,7 +164,7 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * Reconnect Octopus per active `klipper_config/printer.cfg`: Bed SSR on `BED_OUT` (`PA1`), `Z`/`Z1`/`Z2` on `MOTOR2_1`/`MOTOR3`/`MOTOR4`, `Z3` on `MOTOR7`, `X` on `DIAG3` (`PG11`), `Y` on `DIAG0` (`PG6`), `12V` jumpers on `FAN4` and `FAN6`/`FAN7` where needed.
   * Wire 24V power via **2× WAGO 221-415** (`14/16 AWG` short feeders from `RSP-200-24` `+V`/`-V` at `0.8–1.0 N·m`, then 4× lightly hand-twisted `18 AWG` silicone pairs to `MOTOR POWER`, `POWER`, `BED POWER`, and `CANBUS`).
   * Connect U2C USB-C to RPi 4 black USB 2.0 port, verify U2C `120R` jumper (`MCU-CAN-12R`) is ON, connect CAN horizontally (`Green = CAN_L` left, `Yellow = CAN_H` right) with strain relief at the bay entry and loose service loop (keep excess coiled loosely / away from 230V until gantry is fitted).
-  * ⚠️ **Ensure `USB_5V` jumper on EBB SB2209 is REMOVED before applying 24V!**
+  * ⚠️ **Ensure `USB_5V` jumper on EBB SB2209 AND the `USB-PWR` (`VBUS`) 5V jumper next to the USB-C port on BTT Octopus v1.1 are REMOVED before applying 24V!**
 * [ ] **Next Step 5 – Open Bench Power-On & Klipper Verification (Before Closing Ducts):**
   * Multimeter short check across `24V+` / `24V-` before powering on.
   * Verify Pi USB/CAN recognition (`ls /dev/serial/by-id/*`, `ip -s link show can0`).
