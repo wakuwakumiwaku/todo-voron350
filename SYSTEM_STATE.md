@@ -87,7 +87,7 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
 
 ## 5. Current Project Status & Next Steps
 
-*Last updated: 2026-11-20*
+*Last updated: 2026-11-21*
 
 ### Immediate Task (In Progress on Snapmaker U1 / Desktop)
 * **Print `RSP-200-24` Terminal Cover + Compact 2× `WAGO 221-415` Mount:**
@@ -139,7 +139,8 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
     * Order a **shielded USB 2.0 extension cable (`USB-A male to USB-A female`, `0.5–1.0 m`**, keep total length ≤ ~1.5 m).
     * **Do NOT splice/solder** the tiny `28–30 AWG` twisted `D+`/`D-` pair or break the 5th shield wire (480 Mbit/s impedance & shielding are critical near stepper/230V wiring). Secure the USB-A coupling with heatshrink/electrical tape, mount the camera low/front (cooler during ABS prints), route via lower 2020 slot $\rightarrow$ rear Z-chain/deck cutout (avoid 230V duct), and route chamber LED wires (`HE2`/`PB10`) via rear `Z1`/`Z2` & `z_belt_cover` wire pass-through.
 
-### CAN Umbilical Support & Shopping Notes (2026-11-16)
+### CAN Umbilical Support & Shopping Notes (2026-11-16, Updated 2026-11-21)
+* **Measured CAN Cable Outer Diameter (2026-11-21):** **`5.65 mm`** *(fits comfortably inside the `3–6.5 mm` PG7 gland seal on its own with ~`0.85 mm` clearance remaining; an `0.8 mm` piano-wire spine sits right at ~`6.45 mm` combined if run through the gland, whereas `2.4–3.0 mm` trimmer line or an outer PET sleeve must terminate/heatshrink cleanly at the PG7 gland).*
 * **Purpose:** Keeps the floating CAN umbilical (`1_G2E_CAN_Cable_Mount_PG7.stl` at toolhead to rear frame) arched cleanly upward so it never sags into A/B belts or extrusions.
 * **What to buy (choose ONE spine + sleeve):**
   1. **Internal Spine (pick one):**
