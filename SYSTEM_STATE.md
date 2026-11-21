@@ -148,6 +148,14 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
      * **Option B (Safer/simpler): Nylon Trimmer Line (weed-whacker cord) `2.4–3.0 mm`** (safer around wires, easy to cut, though nylon can take a slight permanent bend in hot chambers over time).
   2. **Outer Sleeve:** **PET Expandable Braided Sleeve `8–10 mm`** (melt cut ends slightly with a lighter; route CAN cable + spine together inside the sleeve, and terminate/heatshrink the sleeve cleanly at the PG7 gland if all layers together are too tight inside the `3–6.5 mm` PG7 seal). *(Note: Do NOT use braided USB cables in the bottom bay ducts; braided PET sleeve is specifically for the upper moving CAN umbilical.)*
 
+### Electronics Bay Bottom Panel Notes (2026-11-21)
+* **Current Status:** Bottom panel (`469 × 469 × 3 mm`, underside cover closing the `470 × 470 mm` opening inside the 4 outer bottom perimeter 2020 extrusions) is **missing** from the kit. Non-structural—safe to leave off during open bench tests on a dry, non-conductive surface.
+* **Mounting & Weight:** Attaches only at the outer perimeter extrusions (no center cross-bars underneath) via `bottom_panel_hinge_x2` (rear) + `bottom_panel_clip_x4` (front/sides), or via VHB magnetic clips (`~780–850 g` for `3 mm` PMMA/ACM → use `6–8+` N52 `6×3 mm` or larger magnets + IPA-prepped VHB, optionally keeping rear printed hinges).
+* **Sourcing Options (CH):**
+  * **Preferred (non-conductive, zero-cutting):** `3 mm` **Plexiglas® / Acrylglas (PMMA)** cut to `469 × 469 × 3 mm` (e.g. `faserplast.ch` `330000.008` ~CHF 76.60/m² excl. VAT + CHF 15 `Kleinmengenzuschlag` under CHF 50, or BAUHAUS / HORNBACH `Acrylglas` / `Acrylcolor`).
+  * **Alternative rigid option:** `3 mm` **Alu-Verbundplatte / Alu-Dibond** (ACM, ~840 g; note outer `0.3 mm` aluminum skins + raw edges are conductive—deburr edges, keep `RSP-200-24` 230V terminal cover installed, and ensure 2020 frame PE earth).
+  * **Budget DIY fallback:** `500 × 500 mm` **Neogard `Kunstglas` (Polystyrol)** (`2.5–4 mm`, score-and-snap `31 mm` off two edges; max `+60 °C` so strictly bottom-only, never deck) or `3–4 mm` Coroplast (`Hohlkammerplatte`, sags slightly over time). Avoid `1 mm` picture-frame glazing and flammable wood/MDF.
+
 ### Next Steps
 * [x] **Next Step 1 – Print & Install 35 mm DIN Rail End Stops:**
   * Completed 2026-11-19: **MeanWell RSP-200-24** secured on the 35 mm DIN rail.
@@ -173,4 +181,4 @@ If the Raspberry Pi 4 SD card is lost or corrupted, full recovery takes under 10
   * **Webcam (`klipper_config/crowsnest.conf`):** Plug `icSpring` camera into RPi 4 blue USB 3.0 port (plug-and-play `uvcvideo` on port `8080`); bump `resolution` from `640x480` to `1280x720` (or `1920x1080` @ `15–20 fps`), optionally switch `/dev/video0` to `/dev/v4l/by-id/...`, and tune `white_balance_automatic=1` via `v4l2ctl` / rotation in Mainsail once mounted.
 * [ ] **Next Step 6 – Gantry Assembly, Cable Ducts & Final Verification:**
   * Assemble/install gantry and Z drives/belts, verify full travel before trimming CAN umbilical slack, route cables neatly into ducts only after open tests pass, and re-verify `QUERY_ENDSTOPS`, `QUERY_PROBE`, and thermistors once ducts are closed.
-* [ ] **Next Step 7:** Print remaining electronics bay mounts, skirts, and panel hardware as needed.
+* [ ] **Next Step 7:** Source/cut the missing `469 × 469 × 3 mm` electronics-bay bottom panel (Plexiglas/PMMA or Alu-Verbund) and print remaining electronics bay mounts, skirts, and panel hardware (`bottom_panel_hinge_x2`, `bottom_panel_clip_x4`, or mag clips) as needed.
